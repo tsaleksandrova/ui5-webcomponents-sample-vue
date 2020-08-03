@@ -12,7 +12,8 @@
     "@ui5/webcomponents-fiori": "next",
     "@webcomponents/custom-elements": "^1.3.2",
     "@webcomponents/shadydom": "^1.7.1",
-    "vue": "^2.5.21"
+    "vue": "^2.5.21",
+    "vue-plugin-load-script": "^1.3.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.3.0",

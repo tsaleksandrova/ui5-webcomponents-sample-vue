@@ -110,28 +110,63 @@ let App = Vue.component("app", {
       selectedEditTodo: ""
     };
   },
+  mounted: function () {
+    window.sap.ui.test.Opa5.extendConfig({
+      autoWait: true
+    });
+    var opa = new window.sap.ui.test.Opa5();
+    opa.waitFor({
+      matchers: function () {
+        console.warn("check: ", window.sap.ui.test.autowaiter._autoWaiter.hasToWait());
+        return $("ui5-button.add-todo-element-width");
+      },
+      actions: function (el) {
+        el.click();
+      }
+    });
+    opa.waitFor({
+      matchers: function () {
+        console.warn("check: ", window.sap.ui.test.autowaiter._autoWaiter.hasToWait());
+        return $("#todo-list ui5-li-custom[data-key='i2']").find(".li-content");
+      },
+      actions: function (el) {
+        el.click();
+      }
+    });
+    opa.emptyQueue();
+  },
   methods: {
     handleAdd: function() {
-      this.todos = [...this.todos, {
-        text: this.$refs["todoInput"].value,
-        id: (this.todos.length + 1).toString(),
-        deadline: this.$refs["todoDeadline"].value,
-        done: false
-      }];
+      console.warn("before: ", window.sap.ui.test.autowaiter._autoWaiter.hasToWait());
+      setTimeout(function () {
+        this.todos = [...this.todos, {
+          text: this.$refs["todoInput"].value,
+          id: (this.todos.length + 1).toString(),
+          deadline: this.$refs["todoDeadline"].value,
+          done: false
+        }];
+        console.warn("in: ", window.sap.ui.test.autowaiter._autoWaiter.hasToWait());
+      }.bind(this), 200);
+      console.warn("after: ", window.sap.ui.test.autowaiter._autoWaiter.hasToWait());
     },
     handleDone(event) {
-      const selectedItem = event.detail.selectedItems[0];
-      const selectedId = selectedItem.getAttribute("data-key");
+      console.warn("before: ", window.sap.ui.test.autowaiter._autoWaiter.hasToWait());
+      setTimeout(function () {
+        const selectedItem = event.detail.selectedItems[0];
+        const selectedId = selectedItem.getAttribute("data-key");
 
-      const newlySelected = this.todos.filter(todo => {
-        return selectedId === todo.id.toString();
-      })[0];
-      newlySelected.done = true;
-      this.doneTodos.push(newlySelected);
+        const newlySelected = this.todos.filter(todo => {
+          return selectedId === todo.id.toString();
+        })[0];
+        newlySelected.done = true;
+        this.doneTodos.push(newlySelected);
 
-      this.todos = this.todos.filter(todo => {
-        return selectedId !== todo.id.toString();
-      });
+        this.todos = this.todos.filter(todo => {
+          return selectedId !== todo.id.toString();
+        });
+        console.warn("in: ", window.sap.ui.test.autowaiter._autoWaiter.hasToWait());
+      }.bind(this), 200);
+      console.warn("after: ", window.sap.ui.test.autowaiter._autoWaiter.hasToWait());
     },
     handleUndone(event) {
       const selectedItems = event.detail.selectedItems;
